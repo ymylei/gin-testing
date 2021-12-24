@@ -42,8 +42,9 @@ func testPost(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"message": fmt.Sprintf("My name is %s and you have %s value to me,", name, value),
 		})
+	} else {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "you've not provided the appropriate name and value values, cheers.",
+		})
 	}
-	ctx.JSON(http.StatusBadRequest, gin.H{
-		"error": "you've not provided the appropriate name and value values, cheers.",
-	})
 }
