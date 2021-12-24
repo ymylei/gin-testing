@@ -18,6 +18,9 @@ jobs:
       with:
         go-version: 1.17
 
+    - name: Check Format
+      run: go fmt -n ./...
+
     - name: Build
       run: go build -v ./...
 
