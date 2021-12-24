@@ -44,7 +44,8 @@ func testPost(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&form)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "you've goofed the form, cheers.",
+			"error":        "you've goofed the form, cheers.",
+			"error_return": err.Error(),
 		})
 		return
 	}
