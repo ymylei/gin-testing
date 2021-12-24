@@ -9,10 +9,18 @@ import (
 )
 
 func main() {
-	test := gin.Default()
+	router := router()
+	err := router.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
-	test.GET("/healthcheck", healthCheck)
-	v1 := test.Group("v1")
+func router() *gin.Engine {
+	router := gin.Default()
+
+	router.GET("/healthcheck", healthCheck)
+	v1 := router.Group("v1")
 	{
 		v1.GET("/test", func(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK, gin.H{
@@ -21,10 +29,7 @@ func main() {
 		})
 		v1.POST("/testpost", testPost)
 	}
-	err := test.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
+	return router
 }
 
 func healthCheck(ctx *gin.Context) {
