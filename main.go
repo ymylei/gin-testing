@@ -34,17 +34,29 @@ func healthCheck(ctx *gin.Context) {
 	})
 }
 
-func testPost(ctx *gin.Context) {
-	name := ctx.PostForm("name")
-	value := ctx.PostForm("value")
+type Test struct {
+	Name  string `form:"name" json:"name" binding:"required"`
+	Value string `form:"value" json:"value" binding:"required"`
+}
 
-	if len(name) > 0 && len(value) > 0 {
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": fmt.Sprintf("My name is %s and you have %s value to me,", name, value),
-		})
-	} else {
+func testPost(ctx *gin.Context) {
+	var form Test
+	err := ctx.ShouldBindJSON(&form)
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "you've not provided the appropriate name and value values, cheers.",
+			"error": "you've goofed the form, cheers.",
 		})
+		return
 	}
+
+	if len(form.Name) > 0 && len(form.Value) > 0 {
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": fmt.Sprintf("My name is %s and you have %s value to me.", form.Name, form.Value),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusTeapot, gin.H{
+		"error": "you've done it now mate.",
+	})
 }
