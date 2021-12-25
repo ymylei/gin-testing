@@ -1,8 +1,11 @@
 check-fmt:
 	go fmt -n ./...
 
-build-linux-amd64: check-fmt
-	GOOS=linux GOARCH=amd64 go build -o ./out github.com/ymylei/gin-testing
+build-default: check-fmt
+	go build -o ./out/gin-testing github.com/ymylei/gin-testing
+
+build-linux-arm64: check-fmt
+	GOOS=linux GOARCH=arm64 go build -o ./out/gin-testing-linux-arm64 github.com/ymylei/gin-testing
 
 test: check-fmt
 	go test -v ./...
