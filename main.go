@@ -18,6 +18,7 @@ func main() {
 
 func router() *gin.Engine {
 	router := gin.Default()
+	router.SetTrustedProxies(nil)
 
 	router.GET("/healthcheck", healthCheck)
 	v1 := router.Group("v1")
