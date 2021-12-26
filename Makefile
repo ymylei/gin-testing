@@ -1,5 +1,5 @@
 check:
-	goimports -l -d ./...
+	goimports -l -d .
 	staticcheck ./...
 
 build-default: check
@@ -16,3 +16,6 @@ build-docker: build-linux-arm64
 
 test: check
 	go test -v ./...
+
+format:
+	goimports -l -w .
