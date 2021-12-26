@@ -10,3 +10,4 @@ COPY ["./scripts/server-start.sh", "/webserver"]
 
 ENV GIN_MODE=release
 EXPOSE 8080
+CMD ["/webserver/server-start.sh"]
